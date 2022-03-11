@@ -1,6 +1,6 @@
 import functools
 import os
-import time
+import timeit
 from typing import Callable
 
 API_KEY = os.getenv("WEATHER_API_KEY")
@@ -12,10 +12,11 @@ storage = {}
 def benchmark(func: Callable) -> Callable:
     @functools.wraps(func)
     def inner(*args, **kwargs):
-        begin = time.time()
+        begin = timeit.default_timer()
         result = func(*args, **kwargs)
+        end = timeit.default_timer()
 
-        print(func.__name__, "elapsed", time.time() - begin)
+        print(f"{func.__name__} took {end - begin}")
 
         return result
 
